@@ -1,0 +1,6 @@
+/.cache
+/.coverage
+/.tox
+/htmlcov
+/jam.egg-info
+/pocker.egg-info
