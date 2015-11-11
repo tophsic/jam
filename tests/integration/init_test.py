@@ -1,23 +1,15 @@
 
 
 
-from jam.cli.command import Command
-from jam.cli.command import UnknownCommand
-from unittest import TestCase
 import pytest
+import sys
 
+from jam.tests.main import TestCase
 
 
 class InitTestCase(TestCase):
 
-    @classmethod
-    def setUpClass(self):
-        self.command = Command()
+    def test_init(self):
+        self.command.dispatch(['init'])
 
-    def test_no_command(self):
-        with pytest.raises(SystemExit):
-            self.command.dispatch([])
-
-    def test_unknown_command(self):
-        with pytest.raises(UnknownCommand):
-            self.command.dispatch(['unknown'])
+        sys.stdout.write.assert_called_with('Command init')
