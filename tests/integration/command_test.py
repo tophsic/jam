@@ -4,7 +4,7 @@
 import pytest
 import sys
 
-from jam.cli.command import UnknownCommand
+from jam.command import UnknownCommand
 from jam.tests.main import TestCase
 
 
