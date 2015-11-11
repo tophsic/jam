@@ -3,7 +3,7 @@
 
 import sys
 
-from jam.command import Command
+from jam.topCommand import Command
 
 from unittest.mock import MagicMock
 from unittest import TestCase as BaseTestCase

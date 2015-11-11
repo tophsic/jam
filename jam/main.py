@@ -4,8 +4,9 @@
 import sys
 import logging
 
-from .command import Command
-from .command import UnknownCommand
+from .topCommand import Command
+from .topCommand import UnknownCommand
+from .topCommand import InvalidCommandModule
 
 
 
@@ -16,3 +17,6 @@ def main():
     except UnknownCommand as exception:
         sys.stderr.write(exception.message)
         exit(2)
+    except InvalidCommandModule as exception:
+        sys.stderr.write(exception.message)
+        exit(3)

@@ -4,7 +4,8 @@
 import pytest
 import sys
 
-from jam.command import UnknownCommand
+from jam.topCommand import UnknownCommand
+from jam.topCommand import InvalidCommandModule
 from jam.tests.main import TestCase
 
 
@@ -21,3 +22,7 @@ class CommandTestCase(TestCase):
     def test_no_docstring(self):
         with pytest.raises(UnknownCommand):
             self.command.dispatch(['log'])
+
+    def test_invalid_module(self):
+        with pytest.raises(InvalidCommandModule):
+            self.command.dispatch(['getdoc'])

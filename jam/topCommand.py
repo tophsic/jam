@@ -7,6 +7,7 @@ from docopt import docopt
 from docopt import DocoptExit
 from inspect import getdoc
 
+from .command import *
 
 
 def get_options(docstring, arguments):
@@ -14,6 +15,25 @@ def get_options(docstring, arguments):
         return docopt(docstring, arguments)
     except DocoptExit:
         raise SystemExit(docstring)
+
+
+
+def get_handler(self, commandKey):
+
+    g = globals()
+
+    if not commandKey in g.keys():
+        return False
+
+    module = g[commandKey]
+
+    if not hasattr(module, commandKey.title()):
+        raise InvalidCommandModule(commandKey)
+
+    commandClass = getattr(g[commandKey], commandKey.title())
+    command = commandClass(self.out)
+
+    return command.run
 
 
 
@@ -42,24 +62,17 @@ class Command(object):
         if command is None:
             raise SystemExit(getdoc(self))
 
-        if not hasattr(self, command):
+        handler = get_handler(self, command)
+
+        if handler == False:
             raise UnknownCommand(command, self)
 
-        handler = getattr(self, command)
         docstring = getdoc(handler)
 
         if docstring is None:
             raise UnknownCommand(command, self)
 
         handler(options)
-
-    def init(self, options):
-        """Init command
-        """
-        self.log('Command init')
-
-    def log(self, message):
-        self.out.write(message)
 
 
 
@@ -70,3 +83,11 @@ class UnknownCommand(Exception):
 
         self.command = command
         self.supercommand = supercommand
+
+
+
+class InvalidCommandModule(Exception):
+    def __init__(self, module):
+        self.message = "Module %s must declare %s class" % (module, module.title())
+
+        super(InvalidCommandModule, self).__init__(self.message)
