@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -ex
+
+pip install tox==2.1.1

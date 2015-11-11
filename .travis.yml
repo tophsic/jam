@@ -1,0 +1,13 @@
+sudo: required
+
+language: python
+
+matrix:
+  include:
+    - os: linux
+
+
+install: ./script/install
+
+script:
+  - ./script/ci
